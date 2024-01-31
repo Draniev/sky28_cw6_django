@@ -72,10 +72,16 @@ class Distribution(models.Model):
         MONTH = 'mo', 'every month'
         ONCE = 'on', 'only once'
 
+    class Status(models.TextChoices):
+        NEW = 'new', 'new one'
+        STARTED = 'on', 'Its up and running'
+        STOPPED = 'off', 'Stopped'
+
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.ForeignKey(Message, on_delete=models.PROTECT)
     start_time = models.DateTimeField(default=timezone.now)
     stop_time = models.DateTimeField(default=None)
+    status = models.CharField(max_length=3, choices=Status, default=Status.NEW)
     periodicity = models.CharField(max_length=2, choices=Periodicity, default=Periodicity.ONCE)
     # День отправки сообщения.
     # Для ЕЖЕНЕДЕЛЬНОЙ отправки 1-Пн, 2-Вт, и т.д. 7-Вс
