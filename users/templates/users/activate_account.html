@@ -1,0 +1,31 @@
+<!-- users/activate_account.html -->
+{% extends 'users/base.html' %}
+
+{% block content %}
+<main class="form-center form-authcode">
+  <form method="post">
+      {% csrf_token %}
+      <img class="mb-4" src="/django_static/ico/purrmail_logo-bg.png" alt="" width="120" height="120">
+      <h1 class="h3 mb-3 fw-normal">Enter the activation code</h1>
+
+      {% if messages %}
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+              </div>
+          {% endfor %}
+      {% endif %}
+
+<!--    {{ form.as_div }}-->
+      <div class="form-floating">
+          {{ form.auth_code.errors }}
+          {{ form.auth_code.label_tag }}
+          {{ form.auth_code }}
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+      <p class="mt-5 mb-3 text-muted"><a href="{% url 'users:sign-up' %}">Sign-up</a> | purrmail &copy; {% now 'Y' %}</p>
+  </form>
+</main>
+{% endblock %}

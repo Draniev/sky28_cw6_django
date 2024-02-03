@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -126,6 +127,10 @@ STATIC_URL = 'django_static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'django_static',
 )
+MEDIA_URL = 'django_media/'
+MEDIA_ROOT = (
+    BASE_DIR / 'django_media',
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -134,3 +139,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Используем кастомную модель пользователя
 AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/activate'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+is_dotenv_load = load_dotenv()
+if not is_dotenv_load:
+    raise FileNotFoundError('Не удалось загрузить переменные окружения!')
+
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER

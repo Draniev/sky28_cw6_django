@@ -17,7 +17,7 @@ class Subscriber(models.Model):
     электронной почтой.
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    email = models.EmailField(verbose_name='Электронная почта', unique=True)
+    email = models.EmailField(verbose_name='Электронная почта')
     first_name = models.CharField(max_length=64, default='')
     last_name = models.CharField(max_length=64, default='')
     datetime_added = models.DateTimeField(auto_now_add=True)
@@ -26,6 +26,10 @@ class Subscriber(models.Model):
     class Meta:
         verbose_name = 'Подписчик'
         verbose_name_plural = 'Подписчики'
+        ordering = ('datetime_added', 'email', )
+
+    def __str__(self):
+        return f'{self.email}'
 
 
 class MailingList(models.Model):
@@ -35,11 +39,15 @@ class MailingList(models.Model):
     Рассылка отправляется, соответственно, по списку рассылки.
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, verbose_name='Название списка', default='')
     subscribers = models.ManyToManyField(Subscriber)
 
     class Meta:
         verbose_name = 'База для рассылок'
         verbose_name_plural = 'Базы для рассылок'
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Message(models.Model):
@@ -55,6 +63,9 @@ class Message(models.Model):
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
+
+    def __str__(self):
+        return f'{str(self.title)[:12]}...'
 
 
 class Distribution(models.Model):
@@ -79,6 +90,7 @@ class Distribution(models.Model):
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.ForeignKey(Message, on_delete=models.PROTECT)
+    mailing_list = models.ForeignKey(MailingList, on_delete=models.PROTECT, null=True, default=None)
     start_time = models.DateTimeField(default=timezone.now)
     stop_time = models.DateTimeField(default=None)
     status = models.CharField(max_length=3, choices=Status, default=Status.NEW)

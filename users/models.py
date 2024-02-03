@@ -52,12 +52,13 @@ class User(AbstractUser):
         ADMIN = 'ad', 'admin'
 
     username = None
-    email = models.EmailField(verbose_name='Электронная почта', unique=True)
+    email = models.EmailField(verbose_name='email', unique=True)
     first_name = models.CharField(max_length=64, default='')
     last_name = models.CharField(max_length=64, default='')
     role = models.CharField(max_length=2, choices=Role, default=Role.USER)
     # Код для подтверждения регистрации по электронной почте
     auth_code = models.CharField(max_length=6, default='000000')
+    is_email_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -65,5 +66,8 @@ class User(AbstractUser):
     objects = CustomUserManager()
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
+
+    def __str__(self):
+        return f'{self.role} {self.email}'
