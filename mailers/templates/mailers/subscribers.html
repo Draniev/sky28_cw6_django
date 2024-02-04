@@ -1,0 +1,41 @@
+{% extends 'mailers/base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Subscribers</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+      <a href="{% url 'mailers:subscriber_create' %}" class="btn btn-sm btn-outline-secondary">Add Subscriber</a>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Email</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col" class="col-1">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for subscriber in subscribers %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ subscriber.email }}</td>
+        <td>{{ subscriber.first_name }}</td>
+        <td>{{ subscriber.last_name }}</td>
+        <td>
+          <a href="{% url 'mailers:subscriber_edit' pk=subscriber.pk %}">Edit</a> |
+          <a href="{% url 'mailers:subscriber_delete' pk=subscriber.pk %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

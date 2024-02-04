@@ -3,11 +3,11 @@ import secrets
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView
 
-from service.send_auth_code import send_auth_code
+from service.send_utils import send_auth_code
 from users.forms import CustomUserCreationForm, CustomAuthenticationForm, ActivationCodeForm
 
 User = get_user_model()
@@ -39,7 +39,7 @@ class CustomSignupView(CreateView):
 class ActivateAccountView(LoginRequiredMixin, UserPassesTestMixin, FormView):
     template_name = 'users/activate_account.html'
     form_class = ActivationCodeForm
-    success_url = reverse_lazy('app/')
+    success_url = reverse_lazy('mailers:subscribers')
 
     def test_func(self):
         return self.request.user.is_authenticated and not self.request.user.is_email_verified
@@ -59,3 +59,7 @@ class ActivateAccountView(LoginRequiredMixin, UserPassesTestMixin, FormView):
     def form_invalid(self, form):
         messages.warning(self.request, 'Account is already active.')
         return super().form_invalid(form)
+
+
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('users:sigh-in')

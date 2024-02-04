@@ -139,7 +139,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Используем кастомную модель пользователя
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = '/activate'
+LOGIN_REDIRECT_URL = '/subscribers'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -21,12 +21,12 @@ class Subscriber(models.Model):
     first_name = models.CharField(max_length=64, default='')
     last_name = models.CharField(max_length=64, default='')
     datetime_added = models.DateTimeField(auto_now_add=True)
-    datetime_last_message = models.DateTimeField(default=None)
+    datetime_last_message = models.DateTimeField(default=None, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Подписчик'
         verbose_name_plural = 'Подписчики'
-        ordering = ('datetime_added', 'email', )
+        ordering = ('-datetime_added', 'email', )
 
     def __str__(self):
         return f'{self.email}'
@@ -112,6 +112,15 @@ class Distribution(models.Model):
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
 
+    def __str__(self):
+        return f'{self.message} - {self.periodicity} - {self.mailing_list}'
+
+    def get_mailing_time(self):
+        if self.mailing_time:
+            return self.mailing_time
+        else:
+            return self.start_time.time()
+
 
 class DistributionLog(models.Model):
     """
@@ -120,3 +129,9 @@ class DistributionLog(models.Model):
     рассылке в целом.
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    distribution = models.ForeignKey(Distribution, on_delete=models.CASCADE)
+    task_start_date = models.DateTimeField(default=timezone.now)
+    emails_qty = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ('-task_start_date', 'distribution')

@@ -1,0 +1,35 @@
+{% extends 'mailers/base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Distributions Logs</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Distribution</th>
+      <th scope="col">Task Start Date</th>
+      <th scope="col">Emails Qty</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for distributionlog in distributionslog %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ distributionlog.distribution }}</td>
+        <td>{{ distributionlog.task_start_date }}</td>
+        <td>{{ distributionlog.emails_qty }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
