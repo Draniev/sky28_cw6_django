@@ -15,7 +15,8 @@ class Command(BaseCommand):
         )
 
         for distribution in distributions:
-            if_sent = send_distribution(distribution)
-            self.stdout.write(self.style.SUCCESS(f'{}Обработано {distribution.owner} - {distribution}'))
+            is_sent = send_distribution(distribution)
+            status = 'Отправлено' if is_sent else 'Не время для'
+            self.stdout.write(self.style.SUCCESS(f'{status} {distribution.owner} - {distribution}'))
 
         self.stdout.write(self.style.SUCCESS(f'{timezone.now()} - Successfully ran the command'))
