@@ -62,4 +62,5 @@ class ActivateAccountView(LoginRequiredMixin, UserPassesTestMixin, FormView):
 
 
 class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy('users:sigh-in')
+    next_page = reverse_lazy('users:sign-in')
+    success_url = reverse_lazy('users:sign-in')
