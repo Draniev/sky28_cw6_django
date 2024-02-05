@@ -6,7 +6,7 @@ from users.views import CustomLoginView, CustomSignupView, ActivateAccountView, 
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path('', CustomLoginView.as_view(), name='sign-in'),
+    path('sign-in/', CustomLoginView.as_view(), name='sign-in'),
     path('sign-up/', CustomSignupView.as_view(), name='sign-up'),
     path('activate/', ActivateAccountView.as_view(), name='activate'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),

@@ -66,8 +66,11 @@ class User(AbstractUser):
     objects = CustomUserManager()
 
     class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+        permissions = [
+            ('change_is_active', 'Can activate and deactivate user')
+        ]
 
     def __str__(self):
         return f'{self.role} {self.email}'

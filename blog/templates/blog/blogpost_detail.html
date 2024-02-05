@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <h2>{{ blogpost.title }}</h2>
+    <p>{{ blogpost.content }}</p>
+    {% if blogpost.image %}
+        <img src="{{ blogpost.image.url }}" alt="{{ blogpost.title }}" class="img-fluid">
+    {% endif %}
+    <p class="text-muted">Published on: {{ blogpost.pub_date }}</p>
+    <div class="btn-group">
+        <a href="{% url 'blog:list' %}" class="btn btn-sm btn-outline-secondary">Read News</a>
+        <a href="{% url 'blog:index' %}" class="btn btn-sm btn-outline-secondary">Main Page</a>
+    </div>
+</div>
+
+{% endblock %}

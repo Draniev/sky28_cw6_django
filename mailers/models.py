@@ -111,6 +111,9 @@ class Distribution(models.Model):
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
+        permissions = [
+            ('change_status', 'Can change status (and STOP it) for distribution')
+        ]
 
     def __str__(self):
         return f'{self.message} - {self.periodicity} - {self.mailing_list}'
@@ -134,4 +137,6 @@ class DistributionLog(models.Model):
     emails_qty = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
+        verbose_name = 'Логи рассылки'
+        verbose_name_plural = 'Логи рассылок'
         ordering = ('-task_start_date', 'distribution')

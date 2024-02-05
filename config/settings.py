@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'users',
     'mailers',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -129,9 +130,7 @@ STATICFILES_DIRS = (
     BASE_DIR / 'django_static',
 )
 MEDIA_URL = 'django_media/'
-MEDIA_ROOT = (
-    BASE_DIR / 'django_media',
-)
+MEDIA_ROOT = BASE_DIR / 'django_media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

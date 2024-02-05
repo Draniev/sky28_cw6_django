@@ -43,14 +43,23 @@
 <body>
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Purrmail | {{ user }}</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Purrmail{% if user.email %} | {{ user }}{% endif %}</a>
     <div class="navbar-nav">
+        {% if user.email %}
         <div class="nav-item text-nowrap">
             <form method="post" action="{% url 'users:logout' %}">
                 {% csrf_token %}
                 <button class="form-control form-control-dark px-3" type="submit">Sign out</button>
             </form>
         </div>
+        {% else %}
+        <div class="nav-item text-nowrap">
+            <a class="nav-link px-3" href="{% url 'users:sign-in' %}">Sign in</a>
+        </div>
+<!--        <div class="nav-item text-nowrap">-->
+<!--            <a class="nav-link px-3" href="{% url 'users:sign-up' %}">Sign up</a>-->
+<!--        </div>-->
+        {% endif%}
     </div>
 </header>
 
@@ -69,7 +78,7 @@
                             Our Blog
                         </a>
                     </li>
-
+                    {% if user.email %}
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'mailers:subscribers' %}">
                             Subscribers
@@ -95,6 +104,19 @@
                             Distributions Logs
                         </a>
                     </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'users:sign-in' %}">
+                            Sign in
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'users:sign-up' %}">
+                            Sign up
+                        </a>
+                    </li>
+
+                    {% endif %}
                 </ul>
 
             </div>

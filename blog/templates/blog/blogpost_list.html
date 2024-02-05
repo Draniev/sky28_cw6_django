@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<div class="album py-5">
+    <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for blogpost in blogposts %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        {% if blogpost.image %}
+                            <img src="{{ blogpost.image.url }}" alt="{{ blogpost.title }}" class="bd-placeholder-img card-img-top" width="100%" height="225" />
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h3>{{ blogpost.title }}</h3>
+                            <p class="card-text">{{ blogpost.content|truncatechars:200 }}</p>
+                            <p class="card-text"><small class="text-muted">{{ blogpost.views }} views</small></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="{% url 'blog:detail' pk=blogpost.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                                </div>
+                                <small class="text-muted">{{ blogpost.pub_date|date:"F d, Y" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
